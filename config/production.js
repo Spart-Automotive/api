@@ -5,7 +5,7 @@ module.exports = {
 	},
 	jwtPrivateKey: 'qwertyuiopasdfgh',
 	port: 6080,
-	db: 'mongodb://127.0.0.1:27018/tservice',
+	db: 'mongodb://127.0.0.1:27018/spart',
 	googleClientSecret: 'nWcUAoCvmSM9ajz2fsZovInM',
 	google: {
 		appId:

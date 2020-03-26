@@ -3,10 +3,8 @@ const moment = require('moment')
 require('moment-timezone')
 
 const config = require('../config')
-const { Job, ValidateJob } = require('../models/job')
-const { Move } = require('../models/move')
-const { Stock } = require('../models/stock')
 const { Deskaf } = require('../models/app')
+const Getters = require('../plugins/getters')
 
 // Sortable Attributes
 const sortableAttributes = ['timein', 'sales', 'price']
@@ -18,6 +16,29 @@ const handleSpecialChars = val =>
 
 module.exports = {
   async getAll(req, res) {
+
+    const gFilters = Getters.build (req.query, {
+      name: {
+        extractor: 'string',
+        resolver: 'search',
+        key: 'client.name'
+      },
+      timein: {
+        extractor: 'multiple',
+        resolver: 'dateRange',
+        key: 'timein'
+      },
+      brand: {
+        extractor: 'string',
+        resolver: 'search',
+        key: 'part.name'
+      },
+      brandmlt: {
+        extractor: 'multiple',
+        resolver(val) { return { $in: val } },
+        key: 'part.name'
+      },
+    })
     // console.log(req.query)
     const page = req.query.page ? parseInt(req.query.page, 10) : 0
     const sort = validSort(req.query.sort) || 'timein'
@@ -119,20 +140,14 @@ module.exports = {
     const sorter = {}
     sorter[sort] = desc
     try {
-      const jobs = stats
-        ? null
-        : await Job.find(filters)
-            .select(select)
-            .skip(page * limit)
-            .limit(limit)
-            .sort(sorter)
       const result = {
-        jobs: stats ? count : jobs,
+        // jobs: stats ? count : jobs,
         page: stats ? null : page,
         pages: stats ? null : pages,
         limit: stats ? null : limit,
         stats,
-        // filters,
+        filters,
+        gFilters,
         totalPrice: _.sumBy(count, p => p.price)
       }
       return res.send(result)

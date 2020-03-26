@@ -4,8 +4,8 @@ module.exports = {
 		host: 'foo@bar.com'
 	},
 	jwtPrivateKey: 'qwertyuiopasdfgh',
-	port: 6070,
-	db: 'mongodb://localhost/tservice',
+	port: 5050,
+	db: 'mongodb://localhost/spart',
 	googleClientSecret: 'nWcUAoCvmSM9ajz2fsZovInM',
 	google: {
 		appId:

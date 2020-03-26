@@ -47,14 +47,6 @@ const deskafSchema = new mongoose.Schema({
 		maxlength: 255,
 		default: null
 	},
-	jobs_count: {
-		type: Number,
-		default: 0
-	},
-	vat: {
-		type: Number,
-		default: 0
-	},
 	currency: {
 		type: String,
 		default: 'LE'
@@ -82,12 +74,11 @@ const deskafSchema = new mongoose.Schema({
 })
 
 
-const Deskaf = mongoose.model('Deskaf', deskafSchema)
+const Spart = mongoose.model('Spart', deskafSchema)
 
-function validateDeskaf(deskaf) {
+function validateSpart(deskaf) {
 	const schema = {
 		background: Joi.string().min(1).max(2000),
-		jobs_count: Joi.number().min(0),
 		background_redirect: Joi.object(),
 		facebook: Joi.string().min(5).max(255),
 		twitter: Joi.string().min(5).max(255),
@@ -99,10 +90,9 @@ function validateDeskaf(deskaf) {
 		title: Joi.optional(),
 		subtitle: Joi.optional(),
 		currency: Joi.optional(),
-		vat: Joi.optional(),
 	}
 	return Joi.validate(deskaf, schema)
 }
 
-exports.Deskaf = Deskaf 
-exports.validate = validateDeskaf
+exports.Spart = Spart 
+exports.validate = validateSpart

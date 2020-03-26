@@ -1,10 +1,10 @@
 const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
-const jobController = require('../controllers/job')
+const jobController = require('../controllers/test')
 
 // Get
-router.get('/' ,auth('jobs'), jobController.getAll)
+router.get('/' , jobController.getAll)
 
 // Get One
 router.get('/:id' , auth('jobs') ,jobController.getOne)

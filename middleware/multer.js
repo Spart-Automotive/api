@@ -50,6 +50,36 @@ const storage = {
 			},
 		}
 		return multer.diskStorage({ ...defaults, ...options })
+	},
+	section(options = {}) {
+		const defaults = {
+			destination: './storage/section/',
+			filename(req, file, cb) {        
+				// null as first argument means no error
+				cb(null, generateFileName(req, file) )
+			},
+		}
+		return multer.diskStorage({ ...defaults, ...options })
+	},
+	brand(options = {}) {
+		const defaults = {
+			destination: './storage/brand/',
+			filename(req, file, cb) {        
+				// null as first argument means no error
+				cb(null, generateFileName(req, file) )
+			},
+		}
+		return multer.diskStorage({ ...defaults, ...options })
+	},
+	vehicle(options = {}) {
+		const defaults = {
+			destination: './storage/vehicle/',
+			filename(req, file, cb) {        
+				// null as first argument means no error
+				cb(null, generateFileName(req, file) )
+			},
+		}
+		return multer.diskStorage({ ...defaults, ...options })
 	}
 }
 const fileFilter = {
@@ -72,7 +102,7 @@ const fileFilter = {
 	},
 	avatar(file, cb){
 		// Allowed ext
-		const filetypes = /jpeg|jpg|png|gif/
+		const filetypes = /jpeg|jpg|png|gif|svg/
 		// Check ext
 		const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
 		// Check mime
@@ -86,7 +116,7 @@ const fileFilter = {
 	},
 	background(file, cb){
 		// Allowed ext
-		const filetypes = /jpeg|jpg|png|gif/
+		const filetypes = /jpeg|jpg|png|gif|svg/
 		// Check ext
 		const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
 		// Check mime
@@ -140,6 +170,48 @@ exports.uploadBackground = (options = {}) => {
 	const defaults = {
 		storage: storage.background(options),
 		dest: 'storage/background/',
+		limits: {
+			fileSize: 10000000000000000000,
+		},
+		fileFilter(req, file, cb){
+			fileFilter.avatar(file, cb)
+		}
+	}
+	return multer({ ...defaults ,...options })
+}
+
+exports.uploadSectionImage = (options = {}) => {
+	const defaults = {
+		storage: storage.section(options),
+		dest: 'storage/sections/',
+		limits: {
+			fileSize: 10000000000000000000,
+		},
+		fileFilter(req, file, cb){
+			fileFilter.avatar(file, cb)
+		}
+	}
+	return multer({ ...defaults ,...options })
+}
+
+exports.uploadBrandImage = (options = {}) => {
+	const defaults = {
+		storage: storage.brand(options),
+		dest: 'storage/brand/',
+		limits: {
+			fileSize: 10000000000000000000,
+		},
+		fileFilter(req, file, cb){
+			fileFilter.avatar(file, cb)
+		}
+	}
+	return multer({ ...defaults ,...options })
+}
+
+exports.uploadVehicleImage = (options = {}) => {
+	const defaults = {
+		storage: storage.vehicle(options),
+		dest: 'storage/vehicle/',
 		limits: {
 			fileSize: 10000000000000000000,
 		},
